@@ -1,1 +1,1 @@
-# sdk
+# SDK Яндекс.Игр для Turbowarp
