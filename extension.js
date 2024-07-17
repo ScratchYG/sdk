@@ -122,6 +122,29 @@
         }
       };
     }
+    showfullscreen() {
+      Scratch.YaGames.isAdOpened = true;
+      Scratch.vm.runtime.audioEngine.inputNode.gain.value = 0;
+      if (Scratch.YaGames.debug.enabled) {
+        alert("Fullscreen ad!");
+        Scratch.vm.runtime.audioEngine.inputNode.gain.value = 1;
+        Scratch.YaGames.isAdOpened = false;
+        return;
+      }
+      Scratch.YaGames.sdk.showFullscreenAdv({
+        callbacks: {
+          onClose: function (wasShown) {
+            Scratch.YaGames.isAdOpened = false;
+            Scratch.vm.runtime.startHats('yagames_onfullscreenclosed');
+            Scratch.vm.runtime.audioEngine.inputNode.gain.value = 1;
+          },
+          onError: function (error) {
+            Scratch.YaGames.isAdOpened = false;
+            Scratch.vm.runtime.startHats('yagames_onfullscreenclosed');
+          }
+        }
+      })
+    }
     sdk_load(args, util) {
       function onBlur() {
         if (Scratch.YaGames == false) {
