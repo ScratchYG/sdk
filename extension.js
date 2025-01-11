@@ -1,5 +1,6 @@
 (function (Scratch) {
   "use strict";
+
   class ScratchYGExtension {
     log(message){
       console.log(
@@ -8,8 +9,8 @@
         "background-color: #fed265; color: #4f1bbe; padding: 2px; padding-left:none; padding-right:5px; border-radius:0px 5px 5px 0px; box-shadow: inset 0px -8px 15px 0px rgba(0, 0, 0, 0.7), inset 0px 10px 15px 0px rgba(255, 255, 255, 0.7);",
         "");
     }
+
     getInfo(){
-      console.log(Scratch);
       return {
         id: "scratchyg",
         name: "ScratchYG",
@@ -272,7 +273,6 @@
       script.src = "/sdk.js";
       document.head.appendChild(script);
       script.onload = async function () {
-        console.log(YaGames);
         await YaGames.init().then((ysdk) => {
           window.ysdk = ysdk;
           ysdk.features.LoadingAPI.ready();
@@ -281,9 +281,8 @@
             .then((_player) => {
               var player = _player;
               window.ysdkplayer = player;
-              console.log(window.ysdkplayer);
               window.ysdkloaded = true;
-              log("ScratchYG v0.1 ready");
+              console.log("ScratchYG v0.1 ready");
             })
             .catch((err) => {window.ysdkloaded = true});
         });
@@ -294,7 +293,7 @@
         if (window.ysdkplayer != undefined) {
           var data = await window.ysdkplayer.getData();
           window.ysdkdata = data;
-          log("Succesfully loaded data!");
+          console.log("Succesfully loaded data!");
         }
       } else {
         window.ysdkdata = {};
@@ -305,7 +304,7 @@
         if (window.ysdk != undefined) {
           const flags = await window.ysdk.getFlags();
           window.ysdkflags = flags;
-          log("Succesfully loaded flags!");
+          console.log("Succesfully loaded flags!");
         }
       } else {
         window.ysdkflags = {};
@@ -339,7 +338,7 @@
       )
         window.ysdkplayer.setData(window.ysdkdata, true).then(() => {
           window.savedData = JSON.stringify(window.ysdkdata);
-          log("Successfully saved data!");
+          console.log("Successfully saved data!");
         });
     }
     resetprogress() {
@@ -351,7 +350,7 @@
       )
         window.ysdkplayer.setData(window.ysdkdata, true).then(() => {
           window.savedData = JSON.stringify(window.ysdkdata);
-          log("Successfully saved data!");
+          console.log("Successfully saved data!");
         });
     }
     sdkenabled() {
