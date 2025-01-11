@@ -282,7 +282,7 @@
               var player = _player;
               window.ysdkplayer = player;
               window.ysdkloaded = true;
-              console.log("ScratchYG v0.1 ready");
+              this.log("ScratchYG v0.1 ready");
             })
             .catch((err) => {window.ysdkloaded = true});
         });
@@ -293,7 +293,7 @@
         if (window.ysdkplayer != undefined) {
           var data = await window.ysdkplayer.getData();
           window.ysdkdata = data;
-          console.log("Succesfully loaded data!");
+          this.log("Succesfully loaded data!");
         }
       } else {
         window.ysdkdata = {};
@@ -304,7 +304,7 @@
         if (window.ysdk != undefined) {
           const flags = await window.ysdk.getFlags();
           window.ysdkflags = flags;
-          console.log("Succesfully loaded flags!");
+          this.log("Succesfully loaded flags!");
         }
       } else {
         window.ysdkflags = {};
@@ -338,7 +338,7 @@
       )
         window.ysdkplayer.setData(window.ysdkdata, true).then(() => {
           window.savedData = JSON.stringify(window.ysdkdata);
-          console.log("Successfully saved data!");
+          this.log("Successfully saved data!");
         });
     }
     resetprogress() {
@@ -350,7 +350,7 @@
       )
         window.ysdkplayer.setData(window.ysdkdata, true).then(() => {
           window.savedData = JSON.stringify(window.ysdkdata);
-          console.log("Successfully saved data!");
+          this.log("Successfully saved data!");
         });
     }
     sdkenabled() {
