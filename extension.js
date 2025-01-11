@@ -1,7 +1,15 @@
 (function (Scratch) {
   "use strict";
   class ScratchYGExtension {
-    getInfo() {
+    log(message){
+      console.log(
+        "%cScratch%cYG%c "+message,
+        "background-color: #4f1bbe; color: #fed265; padding: 2px; padding-right:none; padding-left:5px; border-radius:5px 0px 0px 5px; box-shadow: inset 0px -8px 15px 0px rgba(0, 0, 0, 0.7), inset 0px 10px 15px 0px rgba(255, 255, 255, 0.7);",
+        "background-color: #fed265; color: #4f1bbe; padding: 2px; padding-left:none; padding-right:5px; border-radius:0px 5px 5px 0px; box-shadow: inset 0px -8px 15px 0px rgba(0, 0, 0, 0.7), inset 0px 10px 15px 0px rgba(255, 255, 255, 0.7);",
+        "");
+    }
+    getInfo(){
+      console.log(Scratch);
       return {
         id: "scratchyg",
         name: "ScratchYG",
@@ -53,11 +61,6 @@
             text: "SDK загружен?",
           },
           {
-            opcode: "dataloaded",
-            blockType: Scratch.BlockType.BOOLEAN,
-            text: "Данные загружены?",
-          },
-          {
             opcode: "savevars",
             blockType: Scratch.BlockType.COMMAND,
             text: "Сохранить прогресс",
@@ -66,6 +69,11 @@
             opcode: "loadvars",
             blockType: Scratch.BlockType.COMMAND,
             text: "Загрузить прогресс",
+          },
+          {
+            opcode: "dataloaded",
+            blockType: Scratch.BlockType.BOOLEAN,
+            text: "Данные загружены?",
           },
           {
             opcode: "resetprogress",
@@ -137,6 +145,36 @@
             blockType: Scratch.BlockType.BOOLEAN,
             text: "Игра открыта на телевизоре?",
           },
+          {
+            opcode: "getPayingStatus",
+            blockType: Scratch.BlockType.REPORTER,
+            text: "Платёжный статус игрока",
+          },
+          {
+            opcode: "loadFlags",
+            blockType: Scratch.BlockType.COMMAND,
+            text: "Загрузить флаги",
+          },
+          {
+            opcode: "flagsloaded",
+            blockType: Scratch.BlockType.BOOLEAN,
+            text: "Флаги загружены?",
+          },
+          {
+            opcode: "getFlag",
+            blockType: Scratch.BlockType.REPORTER,
+            text: "Получить значение флага [NAME], по умолчанию [DEFVAL]",
+            arguments: {
+              NAME: {
+                defaultValue: "bonus",
+                type: Scratch.ArgumentType.STRING,
+              },
+              DEFVAL: {
+                defaultValue: "1",
+                type: Scratch.ArgumentType.STRING,
+              },
+            },
+          },
         ],
       };
     }
@@ -195,7 +233,7 @@
       return window.isfullscreenclosed == true;
     }
 
-    initsdk() {
+    async initsdk() {
       function onBlur() {
         if (window.isAdOpened == false) {
           Scratch.vm.runtime.audioEngine.inputNode.gain.value = 0;
@@ -209,6 +247,7 @@
       window.onfocus = onFocus;
       window.onblur = onBlur;
       window.isAdOpened = false;
+      window.ysdkloaded = false;
       document.addEventListener(
         "visibilitychange",
         function () {
@@ -226,6 +265,7 @@
       if (window.ysdkdebug == true) {
         window.ysdk = {};
         window.ysdkplayer = {};
+        window.ysdkloaded = true;
         return;
       }
       var script = document.createElement("script");
@@ -242,10 +282,11 @@
               var player = _player;
               window.ysdkplayer = player;
               console.log(window.ysdkplayer);
+              window.ysdkloaded = true;
+              log("ScratchYG v0.1 ready");
             })
-            .catch((err) => {});
+            .catch((err) => {window.ysdkloaded = true});
         });
-        console.log("ScratchYG v0.1 ready");
       };
     }
     async loadvars() {
@@ -253,11 +294,31 @@
         if (window.ysdkplayer != undefined) {
           var data = await window.ysdkplayer.getData();
           window.ysdkdata = data;
-          console.log("Succesfully loaded data!");
+          log("Succesfully loaded data!");
         }
       } else {
         window.ysdkdata = {};
       }
+    }
+    async loadFlags() {
+      if (window.ysdkdebug != true) {
+        if (window.ysdk != undefined) {
+          const flags = await window.ysdk.getFlags();
+          window.ysdkflags = flags;
+          log("Succesfully loaded flags!");
+        }
+      } else {
+        window.ysdkflags = {};
+      }
+    }
+    getFlag(args) {
+      return window.ysdkflags[args.NAME] || args.DEFVAL;
+    }
+    getPayingStatus() {
+      if(window.ysdkdebug == true){
+        return "paying"
+      }
+      return window.ysdkplayer.getPayingStatus();
     }
     setdebug() {
       window.alreadyrated = false;
@@ -278,14 +339,8 @@
       )
         window.ysdkplayer.setData(window.ysdkdata, true).then(() => {
           window.savedData = JSON.stringify(window.ysdkdata);
-          console.log("Successfully saved data!");
+          log("Successfully saved data!");
         });
-    }
-    leaderboard() {
-      setLeaderboardScore({
-        leaderboardName: [args.leaderboardName],
-        score: [args.score],
-      });
     }
     resetprogress() {
       window.ysdkdata = {};
@@ -296,14 +351,17 @@
       )
         window.ysdkplayer.setData(window.ysdkdata, true).then(() => {
           window.savedData = JSON.stringify(window.ysdkdata);
-          console.log("Successfully saved data!");
+          log("Successfully saved data!");
         });
     }
     sdkenabled() {
-      return window.ysdk != undefined;
+      return window.ysdkloaded;
     }
     dataloaded() {
       return window.ysdkplayer != undefined && window.ysdkdata != undefined;
+    }
+    flagsloaded() {
+      return window.ysdkflags != undefined;
     }
     deafAE() {
       Scratch.vm.runtime.audioEngine.inputNode.gain.value = 0;
