@@ -245,7 +245,7 @@
             })
             .catch((err) => {});
         });
-        console.log("ScratchYG ready");
+        console.log("ScratchYG v0.1 ready");
       };
     }
     async loadvars() {
