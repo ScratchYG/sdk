@@ -15,7 +15,20 @@
         id: "scratchyg",
         name: "ScratchYG",
         color1: "#4f1bbe",
+        menuIconURI: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAkxJREFUeJztmj1SwzAQhTeBgoYmLUU4R26QiknpA2TGhBnADeMjMDRQZiYHgC5lOsqcw7pAjpBQgDKyIzn6WWslrK8KjKx9+7RayYHB3c33AXrMkFoANckAagHUJAOoBVCTDKAWQE0ygFoANZd2j/1eHtebL0QpbsymmdVzA5ur8HrzaRXMB6ZGGBkQcuJNdI3Q7gExJQ+gr1fLgNiS5+joPmtArMlzzulvNSD25DltefT+HqA8BUJc/dFkVft5t50bPS87GSwvQnWawgDMxdnEGE1WznGkWyDE1cdAllfve0AygFqALrK9jtFnjJugrBnpjtMVrOr2quddTofgKkDV7bHGNwnOAN8kA6gF+KRi7OR30iZYMQa347F0ElmDwbwJ7rZzo6ZmOr4JylUYG9Nu73IcRrMFXLu9CqUBsv0SKxVjynyiqYCuOOkB78vX42fumqohcrBffTE5V8laFRDCdrB5F5DpFhcYINBTQEUXlaZtgO52CAGTijWuAHHykMyw3aZOp0AIvQHATYfzMUhtgmv8dA/ocnLbv9nL6Oqb6poBzTNSF/HtETNpET6vaIRt+R9gD4O/4kfbAhVjnSUvMptmMJtmTnv/Y/l2/IxmQJGXWFN5jdf7JohigO/Vx4zrbABV8ljxnQygTp7joqNmwNPi2UvQLjDRI441roAiL4NLnmOjq2bAcH/VHuD+xTiAb4q8hMfFg/b4kwpQuVjkJcAhjlPzYn/dnoeA1b/K/ifiWNIOSQZQC6AmGUAtgJpkALUAapIB1AKo+QF0edbcEJgOTQAAAABJRU5ErkJggg==",
+        blockIconURI: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAkxJREFUeJztmj1SwzAQhTeBgoYmLUU4R26QiknpA2TGhBnADeMjMDRQZiYHgC5lOsqcw7pAjpBQgDKyIzn6WWslrK8KjKx9+7RayYHB3c33AXrMkFoANckAagHUJAOoBVCTDKAWQE0ygFoANZd2j/1eHtebL0QpbsymmdVzA5ur8HrzaRXMB6ZGGBkQcuJNdI3Q7gExJQ+gr1fLgNiS5+joPmtArMlzzulvNSD25DltefT+HqA8BUJc/dFkVft5t50bPS87GSwvQnWawgDMxdnEGE1WznGkWyDE1cdAllfve0AygFqALrK9jtFnjJugrBnpjtMVrOr2quddTofgKkDV7bHGNwnOAN8kA6gF+KRi7OR30iZYMQa347F0ElmDwbwJ7rZzo6ZmOr4JylUYG9Nu73IcRrMFXLu9CqUBsv0SKxVjynyiqYCuOOkB78vX42fumqohcrBffTE5V8laFRDCdrB5F5DpFhcYINBTQEUXlaZtgO52CAGTijWuAHHykMyw3aZOp0AIvQHATYfzMUhtgmv8dA/ocnLbv9nL6Oqb6poBzTNSF/HtETNpET6vaIRt+R9gD4O/4kfbAhVjnSUvMptmMJtmTnv/Y/l2/IxmQJGXWFN5jdf7JohigO/Vx4zrbABV8ljxnQygTp7joqNmwNPi2UvQLjDRI441roAiL4NLnmOjq2bAcH/VHuD+xTiAb4q8hMfFg/b4kwpQuVjkJcAhjlPzYn/dnoeA1b/K/ifiWNIOSQZQC6AmGUAtgJpkALUAapIB1AKo+QF0edbcEJgOTQAAAABJRU5ErkJggg==",
         blocks: [
+          {
+            opcode: "initsdkLabel",
+            blockType: Scratch.BlockType.LABEL,
+            text: "Инициализация",
+          },
+          {
+            opcode: "whenInitializedSDK",
+            blockType: Scratch.BlockType.EVENT,
+            text: "Когда SDK Яндекс.Игр встроен",
+            isEdgeActivated: false
+          },
           {
             opcode: "initsdk",
             blockType: Scratch.BlockType.COMMAND,
@@ -27,19 +40,32 @@
             text: "Включить режим отладки",
           },
           {
-            opcode: "getsavedvar",
-            blockType: Scratch.BlockType.REPORTER,
-            text: "Получить сохраненное значение переменной [NAME] по умолчанию [DEFVAL]",
-            arguments: {
-              NAME: {
-                defaultValue: "money",
-                type: Scratch.ArgumentType.STRING,
-              },
-              DEFVAL: {
-                defaultValue: "100",
-                type: Scratch.ArgumentType.STRING,
-              },
-            },
+            opcode: "sdkenabled",
+            blockType: Scratch.BlockType.BOOLEAN,
+            text: "SDK Яндекс.Игр встроен?",
+            disableMonitor: true,
+          },
+          '---',
+          '---',
+          {
+            opcode: "cloudsaveLabel",
+            blockType: Scratch.BlockType.LABEL,
+            text: "Облачные сохранения",
+          },
+          {
+            opcode: "savevars",
+            blockType: Scratch.BlockType.COMMAND,
+            text: "Сохранить прогресс",
+          },
+          {
+            opcode: "loadvars",
+            blockType: Scratch.BlockType.COMMAND,
+            text: "Загрузить прогресс",
+          },
+          {
+            opcode: "resetprogress",
+            blockType: Scratch.BlockType.COMMAND,
+            text: "Сбросить прогресс",
           },
           {
             opcode: "setsavedvar",
@@ -57,99 +83,136 @@
             },
           },
           {
-            opcode: "sdkenabled",
-            blockType: Scratch.BlockType.BOOLEAN,
-            text: "SDK загружен?",
-          },
-          {
-            opcode: "savevars",
-            blockType: Scratch.BlockType.COMMAND,
-            text: "Сохранить прогресс",
-          },
-          {
-            opcode: "loadvars",
-            blockType: Scratch.BlockType.COMMAND,
-            text: "Загрузить прогресс",
-          },
-          {
             opcode: "dataloaded",
             blockType: Scratch.BlockType.BOOLEAN,
-            text: "Данные загружены?",
+            text: "Прогресс загружен?",
+            disableMonitor: true,
           },
           {
-            opcode: "resetprogress",
-            blockType: Scratch.BlockType.COMMAND,
-            text: "Сброс прогреса",
+            opcode: "getsavedvar",
+            blockType: Scratch.BlockType.REPORTER,
+            text: "Получить сохраненное значение переменной [NAME] по умолчанию [DEFVAL]",
+            arguments: {
+              NAME: {
+                defaultValue: "money",
+                type: Scratch.ArgumentType.STRING,
+              },
+              DEFVAL: {
+                defaultValue: "100",
+                type: Scratch.ArgumentType.STRING,
+              },
+            },
+          },
+          '---',
+          '---',
+          {
+            opcode: "adLabel",
+            blockType: Scratch.BlockType.LABEL,
+            text: "Реклама",
+          },
+          {
+            opcode: "whenFullscreenClosed",
+            blockType: Scratch.BlockType.EVENT,
+            text: "При закрытии Fullscreen-рекламы",
+            isEdgeActivated: false
           },
           {
             opcode: "showfullscreen",
             blockType: Scratch.BlockType.COMMAND,
-            text: "Показать рекламу",
-          },
-          {
-            opcode: "whenFullscreenClosed",
-            blockType: Scratch.BlockType.HAT,
-            text: "При закрытии рекламы",
+            text: "Показать Fullscreen-рекламу",
           },
           {
             opcode: "fullscreenClosed",
             blockType: Scratch.BlockType.BOOLEAN,
-            text: "Закрыта ли реклама?",
+            text: "Закрыта ли Fullscreen-реклама?",
+            disableMonitor: true,
+          },
+          {
+            opcode: "whenRewardedWatched",
+            blockType: Scratch.BlockType.EVENT,
+            text: "При закрытии Rewarded-рекламы",
+            isEdgeActivated: false
           },
           {
             opcode: "showrewarded",
             blockType: Scratch.BlockType.COMMAND,
-            text: "Показать рекламу с вознаграждением",
-          },
-          {
-            opcode: "whenRewardedWatched",
-            blockType: Scratch.BlockType.HAT,
-            text: "При закрытии рекламы с вознаграждением",
+            text: "Показать Rewarded-рекламу",
           },
           {
             opcode: "rewardedRewarded",
             blockType: Scratch.BlockType.BOOLEAN,
-            text: "Вознаграждение за рекламу получено?",
+            text: "Вознаграждение за Rewarded получено?",
+            disableMonitor: true,
+          },
+          '---',
+          '---',
+          {
+            opcode: "rateLabel",
+            blockType: Scratch.BlockType.LABEL,
+            text: "Оценка игры",
           },
           {
             opcode: "canRateGame",
             blockType: Scratch.BlockType.BOOLEAN,
             text: "Можно оценить игру?",
+            disableMonitor: true,
           },
           {
             opcode: "openRatePopup",
             blockType: Scratch.BlockType.COMMAND,
             text: "Открыть всплывающее окно оценки",
           },
+          '---',
+          '---',
+          {
+            opcode: "deviceInfoLabel",
+            blockType: Scratch.BlockType.LABEL,
+            text: "Устройство пользователя",
+          },
           {
             opcode: "getDeviceType",
             blockType: Scratch.BlockType.REPORTER,
             text: "Тип устройства",
+            disableMonitor: true,
           },
           {
             opcode: "isDesktop",
             blockType: Scratch.BlockType.BOOLEAN,
             text: "Игра открыта на компьютере?",
+            disableMonitor: true,
           },
           {
             opcode: "isMobile",
             blockType: Scratch.BlockType.BOOLEAN,
             text: "Игра открыта на телефоне?",
+            disableMonitor: true,
           },
           {
             opcode: "isTablet",
             blockType: Scratch.BlockType.BOOLEAN,
             text: "Игра открыта на планшете?",
+            disableMonitor: true,
           },
           {
             opcode: "isTV",
             blockType: Scratch.BlockType.BOOLEAN,
             text: "Игра открыта на телевизоре?",
+            disableMonitor: true,
           },
+          '---',
+          '---',
           {
             opcode: "getPayingStatus",
             blockType: Scratch.BlockType.REPORTER,
             text: "Платёжный статус игрока",
+            disableMonitor: true,
+          },
+          '---',
+          '---',
+          {
+            opcode: "flagLabel",
+            blockType: Scratch.BlockType.LABEL,
+            text: "Удалённая конфигурация",
           },
           {
             opcode: "loadFlags",
@@ -160,6 +223,7 @@
             opcode: "flagsloaded",
             blockType: Scratch.BlockType.BOOLEAN,
             text: "Флаги загружены?",
+            disableMonitor: true,
           },
           {
             opcode: "getFlag",
@@ -175,6 +239,7 @@
                 type: Scratch.ArgumentType.STRING,
               },
             },
+            disableMonitor: true,
           },
         ],
       };
@@ -267,6 +332,7 @@
         window.ysdk = {};
         window.ysdkplayer = {};
         window.ysdkloaded = true;
+        Scratch.vm.runtime.startHats('scratchyg_whenInitializedSDK');
         return;
       }
       var script = document.createElement("script");
@@ -282,9 +348,11 @@
               var player = _player;
               window.ysdkplayer = player;
               window.ysdkloaded = true;
+              Scratch.vm.runtime.startHats('scratchyg_whenInitializedSDK');
               this.log("ScratchYG v0.1 ready");
             })
-            .catch((err) => {window.ysdkloaded = true});
+            .catch((err) => {window.ysdkloaded = true;
+              Scratch.vm.runtime.startHats('scratchyg_whenInitializedSDK');});
         });
       };
     }
