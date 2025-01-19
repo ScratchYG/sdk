@@ -91,7 +91,7 @@
           {
             opcode: "getsavedvar",
             blockType: Scratch.BlockType.REPORTER,
-            text: "Получить сохраненное значение переменной [NAME] по умолчанию [DEFVAL]",
+            text: "Получить значение переменной [NAME], по умолчанию [DEFVAL]",
             arguments: {
               NAME: {
                 defaultValue: "money",
@@ -241,8 +241,26 @@
             },
             disableMonitor: true,
           },
+          '---',
+          '---',
+          {
+            opcode: 'serverTimeLabel',
+            blockType: Scratch.BlockType.LABEL,
+            text: "Серверное время",
+          },
+          {
+            opcode: "getServerTime",
+            blockType: Scratch.BlockType.REPORTER,
+            text: "Получить серверное время"
+          },
         ],
       };
+    }
+    getServerTime() {
+      if (window.ysdkdebug == true) {
+        return Date.now();
+      }
+      return ysdk.getServerTime();
     }
     getDeviceType() {
       if (window.ysdkdebug == true) {
